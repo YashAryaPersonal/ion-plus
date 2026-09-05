@@ -34,6 +34,10 @@ class Ptr(Type): pass
 class NoneType(Type): pass
 
 @dataclass
+class ListOf(Type):
+    list_of: Type
+
+@dataclass
 class Modifier:
     pass
 
