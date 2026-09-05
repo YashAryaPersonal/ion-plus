@@ -1,0 +1,63 @@
+# --- ION+ COMPREHENSIVE TEST SCRIPT ---
+from kernel import memory, hardware
+
+typedef byte as u8
+
+enum NetworkState:
+    DISCONNECTED,
+    CONNECTING,
+    CONNECTED
+
+struct Node:
+    int node_id
+    ptr char ip_address
+    bool is_active
+    u8 latency
+
+const unsigned int MAX_RETRIES = 5
+volatile bool network_ready = False
+atomic byte active_connections = 0
+
+/* 
+Memory allocation for the connection buffer
+*/
+alloc ptr buffer = addr MAX_RETRIES
+
+?int Node.connect():
+    if not network_ready:
+        return none
+    
+    int attempts = 0
+    while attempts < MAX_RETRIES:
+        if active_connections >= 10:
+            break
+        elif hardware.ping() == True:
+            active_connections += 1
+            return 1
+        else:
+            attempts += 1
+            pass
+            
+    return 0
+
+?int main():
+    # Mathematical and bitwise operations
+    int math_test = (100 + 50 - 10 * 2 / 4) % 8
+    int bit_test = (1 bshl 4) bor (16 bshr 2)
+    int mask = (bit_test band 0xFF) bxor (bnot 0) bnand 1
+    
+    float precision_val = 3.14159
+    char status_flag = 'A'
+    
+    int[10] node_array
+    int s_size = sizeof(Node)
+    
+    if math_test >= 5:
+        at buffer = null
+        
+    if hardware.id == 1:
+        free buffer
+        echo "SHUTDOWN_COMPLETE"
+        return 1
+        
+    return 0

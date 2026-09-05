@@ -1,0 +1,104 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Ion Plus",
+  "scopeName": "source.ionx",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#constants" },
+    { "include": "#declarations" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#modifiers" },
+    { "include": "#operators" },
+    { "include": "#punctuation" },
+    { "include": "#functions" },
+    { "include": "#identifiers" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        { "match": "#.*$", "name": "comment.line.number-sign.ionx" },
+        { "begin": "/\\*", "end": "\\*/", "name": "comment.block.ionx" }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        { "begin": "\"", "end": "\"", "name": "string.quoted.double.ionx", "patterns": [{"match": "\\\\.", "name": "constant.character.escape.ionx"}] },
+        { "begin": "'", "end": "'", "name": "string.quoted.single.ionx" }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        { "match": "\\b(True|False|null|none)\\b", "name": "constant.language.ionx" },
+        { "match": "\\b0x[0-9a-fA-F]+\\b", "name": "constant.numeric.hex.ionx" },
+        { "match": "\\b0b[01]+\\b", "name": "constant.numeric.binary.ionx" },
+        { "match": "\\b\\d+\\.\\d+\\b", "name": "constant.numeric.float.ionx" },
+        { "match": "\\b\\d+\\b", "name": "constant.numeric.integer.ionx" }
+      ]
+    },
+    "declarations": {
+      "patterns": [
+        {
+          "match": "\\b(struct|enum)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.control.struct.ionx" },
+            "2": { "name": "entity.name.type.class.ionx" }
+          }
+        },
+        {
+          "match": "\\b(typedef)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s+(as)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.control.typedef.ionx" },
+            "2": { "name": "support.type.primitive.ionx" },
+            "3": { "name": "keyword.control.as.ionx" },
+            "4": { "name": "entity.name.type.ionx" }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        { "match": "\\b(if|elif|else|while|break|continue|return|pass|echo|import|from)\\b", "name": "keyword.control.ionx" },
+        { "match": "\\b(and|or|not|band|bor|bxor|bnand|bnot|bshl|bshr)\\b", "name": "keyword.operator.word.ionx" },
+        { "match": "\\b(sizeof|free|len)\\b", "name": "support.function.builtin.ionx" },
+        { "match": "\\b(addr|at)\\b", "name": "keyword.other.ionx" }
+      ]
+    },
+    "types": {
+      "patterns": [
+        { "match": "\\b(int|float|char|bool|byte|ptr)\\b", "name": "support.type.primitive.ionx" }
+      ]
+    },
+    "modifiers": {
+      "patterns": [
+        { "match": "\\b(atomic|alloc|volatile|unsigned|const)\\b", "name": "storage.modifier.ionx" }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        { "match": "==|<=|>=|\\+=|-=|\\*=|/=|\\+\\+|--", "name": "keyword.operator.ionx" },
+        { "match": "\\+|-|\\*|/|%|=|&|<|>", "name": "keyword.operator.ionx" }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        { "match": "[,\\.:;\\?\\|]", "name": "punctuation.separator.ionx" },
+        { "match": "[\\(\\[\\{\\}\\]\\)]", "name": "punctuation.brackets.ionx" }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=\\()",
+          "name": "entity.name.function.ionx"
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        { "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b", "name": "variable.other.ionx" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "ion-plus",
+  "displayName": "Ion \u207A",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "ionx",
+        "aliases": ["Ion \u207A", "Ion Plus", "ionx"],
+        "extensions": [".ionx"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ionx",
+        "scopeName": "source.ionx",
+        "path": "./syntaxes/ionx.tmLanguage.json"
+      }
+    ]
+  }
+}

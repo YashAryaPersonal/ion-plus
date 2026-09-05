@@ -1,0 +1,17 @@
+/* 
+Short Test: Buffer Validation
+*/
+
+struct Buffer:
+    int size
+    ptr byte data
+
+?int Buffer.validate(int max_size):
+    if size <= 0 or size >= max_size:
+        return none
+    
+    int index = 0
+    while index < size:
+        index += 1
+        
+    return index
