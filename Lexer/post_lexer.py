@@ -3,7 +3,7 @@ from Lexer.scanner import *
 from Errors.err import *
 
 
-def Indent_manager(tokens: list[TokenStruct], filename):
+def Indent_manager(tokens: list[TokenStruct], filename) -> list[TokenStruct]:
     final_tokens = [] 
     indent_level = [0]
     is_line_start = True
@@ -51,11 +51,7 @@ def Indent_manager(tokens: list[TokenStruct], filename):
             
         
         
-def Scan(filename: str):
-    
-    with open(filename, "r") as f:
-            source_code: str = f.read()
-            
+def Scan(source_code: str, filename: str, unindented: bool = False): 
     if not source_code[-1] == "\n":
         source_code += "\n"
     
@@ -75,8 +71,11 @@ def Scan(filename: str):
         sys.exit(1)
         
     tokens.append(TokenStruct(Tokens.EOF, -1, handler.current_line, handler.current_col))
+    indented_form = [TokenStruct(Tokens.SOF, -1, 1, 0)] + Indent_manager(tokens, filename)
             
-    return_val = Indent_manager(tokens, filename), handler.current_line, handler.current_col
+    return_val = indented_form, handler.current_line, handler.current_col
+    
+    if unindented: return_val = [TokenStruct(Tokens.SOF, -1, 1, 0)] + tokens, handler.current_line, handler.current_col
     
     # reset
     handler.current_line = 0

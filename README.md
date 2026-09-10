@@ -1,18 +1,24 @@
 # Ion+ ( [`ion-plus`](https://github.com/YashAryaPersonal/ion-plus) )
 
 <div align="center"><img src="LOGO.png" style="height: 300px;"/></div>
-Ion+ is a low-level programming language project built in Python, with an architecture designed to eventually support LLVM-based code generation. The project currently focuses on the frontend pipeline: lexing source code, tokenizing language constructs, detecting indentation, and defining a rich AST model for future parsing and execution. Its main focus is to make a easier version of **C++** with OOP.
 
-This project is still in early development, and it is open to contributions from developers who want to help shape the language, improve the parser, expand the syntax, and build the backend.
+Ion+ is a low-level, systems-inspired programming language built in Python as a compiler project focused on frontend architecture, parser design, AST generation, and language experimentation. The project is evolving from a lexer and token stream into a more capable language pipeline where variable understanding, declaration parsing, and node construction are becoming important building blocks for the next stages of the compiler.
+
+This repository is a working prototype for a language that mixes ideas from low-level C-style systems programming with a cleaner, modern syntax and a Pythonic developer experience. The core goal is to create a language that is easier to understand and extend than raw C++ while still supporting memory awareness, low-level operations, and structured logic.
+
+The project is still in active development, but it has already reached a meaningful step forward: the parser now understands variable declarations and basic language structure, and the AST system is able to represent program nodes in a meaningful way for future semantic analysis and code generation.
 
 ### [https://github.com/YashAryaPersonal/ion-plus](https://github.com/YashAryaPersonal/ion-plus)
+
+### [ion-plus-preview.onrender.com](https://ion-plus-preview.onrender.com/)
 
 <div align="center">
 
 ## We need developers and contributors
 
-Ion+ is still being built, and we would love help from the developer community.
-If you are interested in compilers, parsers, AST design, language engineering, **LLVM**, or Python tooling, please contribute, raise issues, propose features, or help build the missing parts. To scale it up like **C++** we need help of all of you **respectful** developers.
+Ion+ is still under active construction, and we welcome contributors who are passionate about compilers, parsing, AST design, low-level language design, Python tooling, and future LLVM integration.
+
+If you want to help improve the lexer, build better parser logic, work on semantics, add type checking, or shape the future of the language syntax, this project is a strong place to contribute. We are building a language that wants to become a powerful OOP low-level language, and we need thoughtful developers to help make that vision real.
 
 </div>
 
@@ -20,208 +26,331 @@ If you are interested in compilers, parsers, AST design, language engineering, *
 
 ## Overview
 
-Ion+ aims to provide a low-level, systems-oriented language with a readable syntax inspired by modern programming language patterns. It is designed to be approachable for developers who want to experiment with language construction while still having low-level features such as memory operations, pointers, bitwise operations, structs, enums, and control flow.
+Ion+ is designed as a modern low-level language experiment with a readable block structure, type-based declarations, memory concepts, and future backend code generation. It is inspired by systems languages while keeping the project approachable enough for language engineering experiments in Python.
 
-The current repository focuses mainly on the frontend:
+The project currently covers the following major frontend pieces:
 
-- Lexing source code into tokens
-- Recognizing keywords, operators, literals, and punctuation
-- Managing indentation
-- Creating a structured AST representation
-- Preparing the project for parsing and backend code generation
+- Lexing source files into tokens
+- Recognizing keywords, operators, literals, punctuation, and type names
+- Handling indentation and block structure
+- Building AST node definitions for expressions and statements
+- Reading declarations and variables in a parser
+- Preparing the system for semantic analysis and backend generation
 
-The project description in the repository indicates an intended pipeline:
+The intended architecture is:
 
-Python frontend -> parser/AST -> backend -> LLVM
+Python source -> lexer -> tokens -> indentation handling -> parser -> AST -> semantic analysis -> backend -> LLVM / code generation
 
-This makes Ion+ a compiler-language experiment in progress rather than a fully finished language runtime.
-
----
-
-## Project Goals
-
-Ion+ aims to support the following core ideas:
-
-- Low-level programming model
-- Strong syntax for memory-aware operations
-- Type-aware declarations and expressions
-- Structures, enums, and custom types
-- Bitwise and arithmetic expressions
-- Control flow for branching and loops
-- A future LLVM backend for code generation and execution
-- Hyper powerful and popular strong **OOP low-level language**
-
-The language is intentionally ambitious and educational. It tries to combine syntax patterns from low-level languages with modern programming ergonomics.
+This means Ion+ is not just a syntax toy; it is evolving into a real compiler pipeline project with a clear roadmap.
 
 ---
 
-## Current Status
+## Latest Progress
 
-The project is in the early stages of implementation. At the moment, the following work is present:
+The latest update to the project includes the following meaningful improvements:
 
-- Lexer written with Python regex scanning
-- Token enumeration covering keywords and operator families
-- Indentation handling for block-based syntax
-- Error reporting utilities
-- AST definitions for nodes, declarations, expressions, statements, and program structure
-- Sample language examples in .ionx files
+- Added variable-aware parsing logic in the parser layer
+- Improved AST structure for declarations, statements, and expressions
+- Added support for variable declaration interpretation in the parser
+- Continued expansion of operators, literal handling, and typed declarations
+- Kept the lexer pipeline actively connected to parsing for real source-file testing
+- Added a stronger frontend foundation for future semantic passes
 
-However, the project does not yet appear to have a complete parser implementation or a working LLVM backend. The parser file exists as a starting point but is not fully developed, and the repository is currently a strong foundation for future compiler work rather than a completed compilable language toolchain.
+This is a very important milestone because parser logic is where a language starts to become "understandable" instead of just tokenized. In other words, the project is no longer only scanning text; it is beginning to understand the structure of declarations and variables in a source program.
+
+In the current parser implementation, the language is able to handle variable declarations and basic parsing flow in a meaningful way. That is the direct result of the newer work in [Parser/core_parser.py](Parser/core_parser.py) and the AST definitions in [Parser/nodes.py](Parser/nodes.py).
+
+---
+
+## What the Project Can Do Right Now
+
+Ion+ is currently a frontend-driven compiler prototype. It can:
+
+- Parse source code from .ionx files
+- Tokenize keywords, literals, identifiers, punctuation, and operators
+- Insert indentation-level tokens when needed
+- Build AST-like data structures from declarations and expressions
+- Understand variable declarations, modifiers, and typed assignment patterns
+- Display parsed output in a readable format through Python printing
+
+This is enough to test language syntax and structure before implementing deeper semantic validation or LLVM code generation.
+
+---
+
+## Variable Understanding and Parser Progress
+
+One of the biggest recent additions is the variable understanding parser.
+
+The parser now demonstrates a stronger awareness of the language's declaration patterns, including:
+
+- Data types such as int, float, bool, byte, char, ptr, and none
+- Modifier support such as const, atomic, alloc, unsigned, and volatile
+- Variable assignment handling
+- Declaration flow for typed identifier creation
+- Basic AST creation for variables and expression structure
+
+This is done in the parser logic inside [Parser/core_parser.py](Parser/core_parser.py), where it checks the token sequence and turns them into objects such as VariableDeclaration, Identifier, IntegerLiteral, and other AST nodes defined in [Parser/nodes.py](Parser/nodes.py).
+
+The current model is still simple, but it is a real step toward building a meaningful language parser instead of only a lexer.
+
+---
+
+## Current Project Status
+
+The current repository is in the early-to-mid frontend stage. It includes:
+
+- A regex-based lexer for source scanning
+- Token definitions with typed categories
+- Post-processing for indentation and block awareness
+- AST classes for declarations, expressions, statements, and control flow
+- A parser that understands variable declarations and program structure
+- Sample language files to simulate syntax and parser behavior
+
+It still does not yet have a complete backend or execution engine, but the core frontend is beginning to resemble an actual compiler foundation rather than just a token experiment.
 
 ---
 
 ## Architecture and Flow
 
-The intended architecture of the project is:
+The intended pipeline for Ion+ is:
 
-1. Source file input
-2. Lexical analysis
-3. Token stream creation
-4. Indentation processing
-5. Parsing into an AST
-6. Semantic validation
-7. LLVM IR or backend code generation
-8. Final compiled or interpreted execution
+1. Read source code from a .ionx file
+2. Lex the file into token objects
+3. Post-process indentation and block structure
+4. Parse code into AST nodes
+5. Validate declarations and expressions
+6. Build semantic data and type relationships
+7. Generate LLVM IR or backend output
+8. Execute or compile the result
 
-This repository currently contains the first half of that pipeline.
+Right now, the project is mainly in stages 1 through 4, with strong momentum in variable understanding and AST creation.
 
 ### 1. Source Input
 
-The user writes code in files such as:
+Ion+ reads code from files such as:
 
-- test.ionx
-- test2.ionx
+- [test.ionx](test.ionx)
+- [test1.ionx](test1.ionx)
+- [test2.ionx](test2.ionx)
 
-These are sample programs representing the current language syntax.
+These files act as examples of the language syntax and allow developers to write test programs, try parser behavior, and inspect how the language is evolving.
 
 ### 2. Lexing
 
-The lexer reads the whole source file and converts it into meaningful tokens.
-
-That includes:
+The lexer is implemented in [Lexer/scanner.py](Lexer/scanner.py) and is responsible for scanning the text file and converting it into structured tokens. It recognizes:
 
 - Keywords like if, while, return, struct, enum, sizeof, import
 - Data types like int, float, bool, char, byte, ptr, none
-- Operators like +, -, *, /, %, ==, <=, >=, +=, -=, etc.
-- Literals like integers, floats, strings, booleans, and binary/hex values
+- Operators like +, -, *, /, %, ==, <=, >=, +=, -=
+- Literals like integers, floats, strings, booleans, binary values, and hex values
 - Identifiers and punctuation
-
-This is handled in [Lexer/scanner.py](Lexer/scanner.py).
 
 ### 3. Token Definitions
 
-The [Lexer/tokens.py](Lexer/tokens.py) file defines all valid token names in an Enum, making token handling explicit and organized.
+The token system is defined in [Lexer/tokens.py](Lexer/tokens.py). It organizes the language into explicit categories so the parser can react to meaningful token groups instead of raw text.
 
 Examples include:
 
-- Token categories like COMMENT, NEWLINE, WHITESPACE, EOF, INDENT, DEDENT
-- Data types: DT_INT, DT_FLOAT, DT_CHAR, DT_BOOL, DT_BYTE, DT_PTR, DT_NONE
-- Keywords: KW_IF, KW_ELSE, KW_WHILE, KW_RETURN, KW_STRUCT, KW_ENUM, KW_IMPORT
-- Operators: OP_ADDITION, OP_SUBTRACTION, OP_ASSIGNMENT, OP_EQUAL_TO, OP_LESS_THAN
-- Literals: INTEGER_LITERAL, FLOAT_LITERAL, STRING_LITERAL, CHARACTER_LITERAL
+- COMMENT, NEWLINE, WHITESPACE, EOF, INDENT, DEDENT
+- DT_INT, DT_FLOAT, DT_CHAR, DT_BOOL, DT_BYTE, DT_PTR, DT_NONE
+- KW_IF, KW_ELSE, KW_WHILE, KW_RETURN, KW_STRUCT, KW_ENUM, KW_IMPORT
+- OP_ADDITION, OP_SUBTRACTION, OP_ASSIGNMENT, OP_EQUAL_TO, OP_LESS_THAN
+- INTEGER_LITERAL, FLOAT_LITERAL, STRING_LITERAL, CHARACTER_LITERAL
 
-This is critical because the parser depends on consistent token categories when it eventually reads the stream.
+### 4. Indentation Handling
 
-### 4. Indentation Management
+The post-processing stage lives in [Lexer/post_lexer.py](Lexer/post_lexer.py). It reads the raw token data and adds indentation tokens when new blocks begin or end. This is important for block-based language syntax, similar to Python-like languages.
 
-The project is designed around indentation-sensitive block structures, similar to Python-like languages.
+### 5. AST and Parser Design
 
-This logic lives in [Lexer/post_lexer.py](Lexer/post_lexer.py). It reads the tokens produced by the scanner and inserts INDENT and DEDENT tokens when block scopes open or close. This is important because the language expects blocks such as:
+The AST definitions live in [Parser/nodes.py](Parser/nodes.py). This file contains the root node model and all the declaration, expression, statement, and control-flow node types, including:
 
-- if conditions
-- while loops
-- function bodies
-- struct or enum definitions
+- Program
+- Identifier
+- IntegerLiteral, FloatLiteral, StringLiteral, CharLiteral, BooleanLiteral
+- BinaryExpression, InfixExpression, UnaryExpression
+- AssignmentExpression
+- CallExpression, MemberExpression, SizeOfExpression
+- VariableDeclaration
+- FunctionDeclaration
+- StructDeclaration, EnumDeclaration
+- IfStatement, WhileStatement
+- ReturnStatement, BreakStatement, ContinueStatement, PassStatement
+- EchoStatement, ImportStatement
 
-The project includes explicit indentation validation to detect mismatched or invalid indentation.
-
-### 5. AST Definition
-
-The AST layer is defined in [Parser/nodes.py](Parser/nodes.py).
-
-This file declares all the node types representing syntax in the language, including:
-
-- Program root node
-- Expression nodes
-- Statement nodes
-- Declarations and definitions
-- Control flow nodes
-
-Examples of AST node categories:
-
-- Literals: Identifier, IntegerLiteral, FloatLiteral, StringLiteral, CharLiteral, BooleanLiteral
-- Expressions: BinaryExpression, InfixExpression, UnaryExpression, AssignmentExpression, CallExpression, MemberExpression, SizeOfExpression
-- Statements: ExpressionStatement, VariableDeclaration, FunctionDeclaration, StructDeclaration, EnumDeclaration
-- Control flow: IfStatement, WhileStatement, ReturnStatement, BreakStatement, ContinueStatement, PassStatement
-- Utility: EchoStatement, ImportStatement
-
-This is the real blueprint for the compiler frontend. Once the parser grows, these AST classes will be instantiated from the token stream.
+The parser in [Parser/core_parser.py](Parser/core_parser.py) is what turns token sequences into those node objects and begins giving the language a structure it can reason about.
 
 ---
 
-## Project Structure
+## Full Project Directory Overview
 
-### Root directory
+Here is the full current project layout and what each file/folder is for:
 
-- [main.py](main.py)  
-  Main execution file. It calls the scanning pipeline on a target .ionx file and prints tokens.
+### Root files
 
 - [README.md](README.md)  
-  Project overview and documentation.
+  Project overview, setup instructions, language explanation, examples, and contributor documentation.
+
+- [main.py](main.py)  
+  Main runtime entry point for testing the current lexer and parser pipeline. It reads source code from a file, scans it, and prints tokens and parsed output.
 
 - [LICENSE](LICENSE)  
-  License terms for the project.
+  Licensing information for the project.
+
+- [LOGO.png](LOGO.png)  
+  Project logo used at the top of the README and branding for the language project.
 
 - [test.ionx](test.ionx)  
-  Larger sample language file showing many language constructs.
+  Larger sample language file demonstrating a more complete syntax with declarations, enums, structs, memory, bitwise logic, and function-like blocks.
+
+- [test1.ionx](test1.ionx)  
+  Additional sample source file used for general testing and development of parser behavior.
 
 - [test2.ionx](test2.ionx)  
-  Simpler test file focusing on a struct and validation logic.
+  Simpler validation-focused sample that shows a struct and a method-like declaration pattern, useful for parser and AST testing.
 
 ### Lexer folder
 
+- [Lexer/__int__.py](Lexer/__int__.py)  
+  Package marker for the lexer module.
+
 - [Lexer/scanner.py](Lexer/scanner.py)  
-  Regex-based lexer that recognizes the language syntax.
+  Core lexer file that scans raw source text and produces token data.
 
 - [Lexer/tokens.py](Lexer/tokens.py)  
-  Enum definitions for all tokens.
+  Token enum definitions and token metadata used by the lexer and parser.
 
 - [Lexer/post_lexer.py](Lexer/post_lexer.py)  
-  Indentation and token cleanup stage.
+  Post-processing layer that handles indentation, block boundaries, and prepares token streams for parsing.
 
 ### Parser folder
 
+- [Parser/__init__.py](Parser/__init__.py)  
+  Parser package entry file.
+
 - [Parser/nodes.py](Parser/nodes.py)  
-  Abstract syntax tree definitions.
+  AST definitions for all language constructs, used for representing parsed code.
 
 - [Parser/core_parser.py](Parser/core_parser.py)  
-  Parser logic entry point for future implementation.
+  Main parser implementation, responsible for reading token streams and constructing node trees.
 
 ### Errors folder
 
+- [Errors/__int__.py](Errors/__int__.py)  
+  Package marker for the error utilities.
+
 - [Errors/err.py](Errors/err.py)  
-  Error definitions and reporting utilities.
+  Error definitions and reporting system for syntax and lexical issues.
+
+### .vscode folder
+
+- [.vscode/extensions](.vscode/extensions)  
+  Contains the editor extension setup used to add syntax highlighting for Ion+ files.
+
+- [.vscode/extensions/ion-plus/package.json](.vscode/extensions/ion-plus/package.json)  
+  VS Code extension manifest for the Ion+ language definition. It registers the .ionx file extension and associates it with the correct syntax grammar.
+
+- [.vscode/extensions/ion-plus/syntaxes](.vscode/extensions/ion-plus/syntaxes)  
+  Grammar files that provide syntax highlighting support for Ion+ source files.
+
+- [.vscode/extensions/ion-plus/language-configuration.json](.vscode/extensions/ion-plus/language-configuration.json)  
+  VS Code language configuration for auto-closing brackets, comments, and other editor behavior for Ion+ files.
+
+This folder is useful for making the project feel more complete inside VS Code. It gives Ion+ files a dedicated language identity and makes development smoother when editing .ionx source files.
 
 ---
 
-## Sample Language Ideas in the Project
+## Example Code from test.ionx
 
-The example source files show that Ion+ is intended to support a low-level, expression-heavy syntax. The sample programs include:
-
-- Struct declarations
-- Enum declarations
-- Variable declarations with modifiers
-- Memory-related keywords such as alloc, addr, free, null
-- Pointer syntax with ptr
-- Control flow with if, elif, else, while, break, continue, return
-- Bitwise operators including band, bor, bxor, bnand, bnot, bshl, bshr
-- Built-in sizeof function
-- Boolean logic with not, and, or
-- Echo output statements
-
-Here is a conceptually representative snippet from the examples:
+The project includes a larger demonstration program in [test.ionx](test.ionx). This file shows a richer version of the language and demonstrates the direction of the syntax.
 
 ```ionx
+# --- ION+ COMPREHENSIVE TEST SCRIPT ---
+from kernel import memory, hardware
+
+typedef byte as u8
+
+enum NetworkState:
+    DISCONNECTED,
+    CONNECTING,
+    CONNECTED
+
+struct Node:
+    int node_id
+    ptr char ip_address
+    bool is_active
+    u8 latency
+
+const unsigned int MAX_RETRIES = 5
+volatile bool network_ready = False
+atomic byte active_connections = 0
+
+/* 
+Memory allocation for the connection buffer
+*/
+alloc ptr buffer = addr MAX_RETRIES
+
+?int Node.connect():
+    if not network_ready:
+        return none
+    
+    int attempts = 0
+    while attempts < MAX_RETRIES:
+        if active_connections >= 10:
+            break
+        elif hardware.ping() == True:
+            active_connections += 1
+            return 1
+        else:
+            attempts += 1
+            pass
+            
+    return 0
+
+?int main():
+    # Mathematical and bitwise operations
+    int math_test = (100 + 50 - 10 * 2 / 4) % 8
+    int bit_test = (1 bshl 4) bor (16 bshr 2)
+    int mask = (bit_test band 0xFF) bxor (bnot 0) bnand 1
+    
+    float precision_val = 3.14159
+    char status_flag = 'A'
+    
+    int[10] node_array
+    int s_size = sizeof(Node)
+    
+    if math_test >= 5:
+        at buffer = null
+        
+    if hardware.id == 1:
+        free buffer
+        echo "SHUTDOWN_COMPLETE"
+        return 1
+        
+    return 0
+```
+
+This example shows several of the language goals:
+
+- typed variable declarations
+- struct definitions
+- enums and constants
+- bitwise expressions
+- memory-oriented syntax
+- control flow and function-style blocks
+- future support for runtime-like behavior
+
+---
+
+## Example Code from test2.ionx
+
+The smaller sample in [test2.ionx](test2.ionx) is a focused validation script showing how the parser should understand a simple struct and method pattern with return values.
+
+```ionx
+/* 
+Short Test: Buffer Validation
+*/
+
 struct Buffer:
     int size
     ptr byte data
@@ -229,145 +358,27 @@ struct Buffer:
 ?int Buffer.validate(int max_size):
     if size <= 0 or size >= max_size:
         return none
-
+    
     int index = 0
     while index < size:
         index += 1
-
+        
     return index
 ```
 
-This shows the language’s intended block structure and syntax style.
+This example is especially useful for checking the parser’s handling of:
+
+- struct definitions
+- typed members
+- function-style declarations
+- boolean comparisons
+- while loops
+- return statements
+- variable initialization inside blocks
 
 ---
 
-## Current Implementation Details
-
-### Lexer behavior
-
-The scanner uses regex rules arranged in phases:
-
-1. Ignore whitespace, comments, and newlines
-2. Match multi-character operators
-3. Match keywords and data types
-4. Match literals and identifiers
-5. Match single-character operators and punctuation
-6. Catch illegal tokens as a fallback
-
-This is an important part of the compiler pipeline because the scanner has to be precise enough that the parser later sees valid token groups.
-
-### Error handling
-
-The error system is defined in [Errors/err.py](Errors/err.py). It provides custom errors such as:
-
-- IonError
-- LexerError
-- IndentationError
-
-The system prints a location-aware message with file name, line, and column so that errors are easier to debug during language development.
-
-### Indentation processing
-
-Indentation matters, and the lexer adds INDENT and DEDENT tokens based on the leading spaces before a line. This is useful for block-based syntax and is an important feature for creating Python-like control structures.
-
----
-
-## How the Project Runs Today
-
-The current project entry point is [main.py](main.py), which does the following:
-
-```python
-from Lexer.post_lexer import *
-
-if __name__ == "__main__":
-    tokens, last_line, last_col = Scan("test2.ionx")
-    print_tokens(tokens)
-```
-
-This means the current project behavior is essentially:
-
-- Open a file like test2.ionx
-- Scan it with the lexer
-- Convert it into tokens
-- Print the tokens to the console
-
-This is a useful frontend validation step, and it helps test whether the lexer recognizes syntax correctly before deeper parser and compiler work begins.
-
----
-
-## What Is Missing
-
-Ion+ is still missing several crucial compiler stages. Important future tasks include:
-
-- Full parser implementation
-- Proper AST construction from token streams
-- Semantic analysis and symbol resolution
-- Type checking
-- Function call validation
-- Runtime execution model
-- LLVM backend integration
-- Code generation from AST to LLVM IR
-- Test suite for parser and compiler correctness
-- Documentation for language syntax and semantics
-- **OOP** (Object Orintation Programming) features
-
-This is a major compiler project, and the current repo is a very good starting point for building those features.
-
----
-
-## Roadmap
-
-A realistic roadmap for this project would look something like this:
-
-### Phase 1: Frontend completion
-
-- Finish parser for declarations, expressions, control flow
-- Validate AST correctness
-- Produce robust tokenization for all language constructs
-
-### Phase 2: Semantics
-
-- Add symbol table and scoped variable resolution
-- Implement type checking
-- Validate function signatures and declarations
-
-### Phase 3: Code generation
-
-- Generate LLVM IR
-- Map AST nodes to backend instructions
-- Support calling conventions and stack management
-
-### Phase 4: Runtime and tooling
-
-- Add CLI compiler commands
-- Support compilation and execution
-- Provide debug output, syntax diagnostics, and project tooling
-
-### Phase 5: Community growth
-
-- Improve docs and examples
-- Add contribution guidelines
-- Expand language syntax and compiler test coverage
-
----
-
-## Why This Project Matters
-
-Ion+ is interesting because it combines the educational side of compiler construction with the practical challenge of building a language from the ground up. It is a valuable project for anyone learning about:
-
-- Lexical analysis
-- Tokenization
-- Parsing
-- Abstract syntax trees
-- Compiler architecture
-- Low-level language concepts
-- LLVM toolchain integration
-
-It is also a strong example of how a language project evolves from a simple lexer to a complete compiler system.
-
----
-
-## How to Run It
+## How to Run Ion+
 
 From the project root, run:
 
@@ -375,27 +386,187 @@ From the project root, run:
 python main.py
 ```
 
-This currently reads the sample file defined in [main.py](main.py) and prints the tokens.
+This will execute the main script defined in [main.py](main.py), which currently reads a source file, scans it with the lexer, and prints tokens. It also prints the parser output, which is the current AST representation for the source.
 
-If you want to test a different source file, update the filename inside the script or extend the project with a command-line argument parser.
+### Actual main.py behavior
+
+The current script works like this:
+
+```python
+from Lexer.post_lexer import *
+from Parser.core_parser import *
+
+if __name__ == "__main__":
+    with open("test1.ionx", "r") as f:
+        source_code: str = f.read()
+
+    tokens, last_line, last_col = Scan(source_code, "test2.ionx")
+    parser = Parser(tokens, "test2.ionx")
+
+    print_tokens(tokens)
+    print(parser.parse())
+```
+
+This lets you:
+
+- read a .ionx file
+- run the lexer
+- generate tokens
+- pass the token list to the parser
+- print the resulting parsed nodes / AST object
+
+---
+
+## How to Print the Nodes
+
+The parser output is printed to the console using:
+
+```python
+print(parser.parse())
+```
+
+This is the critical line for seeing the AST tree. It prints the entire parsed structure generated by the parser from the input file.
+
+If you want to inspect parsing in a custom test script, use:
+
+```python
+from Parser.core_parser import Parser
+from Lexer.post_lexer import Scan
+
+with open("test2.ionx", "r") as f:
+    source = f.read()
+
+tokens, _, _ = Scan(source, "test2.ionx")
+parser = Parser(tokens, "test2.ionx")
+print(parser.parse())
+```
+
+This is useful for debugging and for observing how the parser interprets variable declarations and nested language structure.
+
+---
+
+## Why This Project Matters
+
+Ion+ is valuable because it combines several important ideas in one educational compiler project:
+
+- lexical analysis
+- indentation-aware scanning
+- parser construction
+- AST modeling
+- typed variable understanding
+- language design experimentation
+- low-level syntax exploration
+- future LLVM/backend opportunities
+
+It is a strong project for developers who want to learn compiler architecture while also building a language that feels designed, not random.
+
+---
+
+## Roadmap
+
+A realistic future roadmap for Ion+ looks like this:
+
+### Phase 1: Frontend completion
+
+- Finish parser coverage for declarations, expressions, and blocks
+- Improve syntax handling for more language constructs
+- Validate AST correctness on larger sample programs
+
+### Phase 2: Semantics and type checking
+
+- Add symbol table support
+- Resolve identifiers and declarations
+- Validate function signatures and variable usage
+- Improve type checking for low-level constructs
+
+### Phase 3: Backend integration
+
+- Generate LLVM IR from AST nodes
+- Add execution or compilation support
+- Support memory operations and runtime primitives
+
+### Phase 4: Tooling and developer experience
+
+- CLI compiler args
+- Better error output
+- Syntax highlighting improvements
+- More documentation and examples
+
+### Phase 5: Language growth
+
+- OOP support and class design
+- More advanced control flow
+- Better semantics and code generation pipeline
 
 ---
 
 ## Development Opportunities
 
-There are many ways to contribute to Ion+:
+There are many ways to contribute:
 
-- Improve and expand the lexer
-- Build the parser
-- Define more AST nodes
-- Add semantic analysis
-- Create tests for language files
-- Improve error reporting
-- Implement LLVM backend support
-- Write better documentation and examples
-- Refactor code for readability and structure
+- Expand the lexer to cover more language syntax
+- Improve variable and declaration parsing
+- Add more AST node types and expression handling
+- Work on control-flow analysis
+- Validate parser correctness with more sample programs
+- Improve error reporting and location tracking
+- Build semantic analysis and type resolution
+- Implement backend support for LLVM or another target
+- Write documentation, tests, and examples
 
-This project is a good fit for contributors who want to learn compiler internals while creating something meaningful from scratch.
+This project is especially good for contributors who want to understand how compilers evolve from simple scanning into full language systems.
+
+---
+
+## Call for Contributors
+
+Ion+ is a promising language experiment and compiler project. It needs community support to become a serious language ecosystem, not just a frontend prototype.
+
+We are looking for developers interested in:
+
+- compiler design
+- parser construction
+- AST engineering
+- Python tooling
+- low-level language development
+- LLVM backend work
+- language spec design
+- documentation and testing
+
+If you are interested in building a new language from the ground up, Ion+ is a great space to contribute.
+
+<div align="center">
+
+## Join the project and help build Ion+
+
+Contributors are welcome. If you want to help, open an issue, submit a pull request, improve the parser, write tests, or help shape the language design.
+
+Let’s build the future of Ion+ together.
+
+</div>
+
+---
+
+## Screenshot Placeholder
+
+You can place a screenshot of the language or editor output here when you are ready:
+
+![Ion+ language screenshot](./screenshot.png)
+---
+
+## License
+
+This project uses the repository license included in [LICENSE](LICENSE). Please review that file for usage and distribution terms. It is made under [Apache 2.0](http://www.apache.org/licenses/).
+
+---
+
+## Final Note
+
+Ion+ is a steadily growing language project with a real compiler-style architecture and a much stronger parser foundation than it had before. The addition of variable understanding and AST parsing is an important milestone because it shows the project is moving from raw token recognition toward actual language comprehension.
+
+The repository is still young, but it already contains the blueprint for a serious language frontend. With more work on parsing, semantics, and code generation, Ion+ can grow from a language experiment into a complete low-level compiler project.
+
+**Thanks** for all **respectful** developers who are helping build the future of Ion+.
 
 ---
 

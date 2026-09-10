@@ -1,6 +1,5 @@
 from .tokens import Tokens, TokenStruct
 import re
-import sys
 from Errors.err import *
 
 
@@ -41,30 +40,30 @@ handler = IonTokenHandler()
 
 lexer = re.Scanner([
     
-    # --- Phase 1: Ignore ---
+    # --- Ignore ---
     (r"\n+", lambda s,t: handler.handle_newline(s,t)),
     (r"#.*|/\*[\s\S]*?\*/", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.COMMENT)),
     (r"[ \t]+", lambda s,t: handler.handle_token_len(scanner=s, lexeme=t, token=Tokens.WHITESPACE)),
     
-    # --- Phase 2: Multi-Char Ops ---
+    # --- Multi-Char Ops ---
     (r"==", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_EQUAL_TO)),
     (r"<=", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_LESS_THAN_EQ)),
     (r">=", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_GREATER_THAN_EQ)),
-    (r"\+=", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_SUBSTRACTIONAL_ASSIGNMENT)),
+    (r"\+=", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_ADDITION_ASSIGNMENT)),
     (r"-=", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_SUBSTRACTIONAL_ASSIGNMENT)),
     (r"\*=", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_MULTIPLICATIONAL_ASSIGNMENT)),
     (r"/=", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_DIVISIONAL_ASSIGNMENT)),
     (r"\+\+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_INCREMENT)),
     (r"--", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_DECREMENT)),
     
-    # --- Phase 3: Word Boundaries (Variable Modifiers) ---
+    # --- Word Boundaries (Variable Modifiers) ---
     (r"\batomic\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.VM_ATOMIC)),
     (r"\balloc\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.VM_ALLOC)),
     (r"\bvolatile\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.VM_VOLATILE)),
     (r"\bunsigned\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.VM_UNSIGNED)),
     (r"\bconst\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.VM_CONST)),
     
-    # --- Phase 3: Word Boundaries (Data Types) ---
+    # --- Word Boundaries (Data Types) ---
     (r"\bint\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.DT_INT)),
     (r"\bfloat\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.DT_FLOAT)),
     (r"\bchar\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.DT_CHAR)),
@@ -73,7 +72,7 @@ lexer = re.Scanner([
     (r"\bptr\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.DT_PTR)),
     (r"\bnone\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.DT_NONE)),
     
-    # --- Phase 3: Word Boundaries (Core Keywords) ---
+    # --- Word Boundaries (Core Keywords) ---
     (r"\baddr\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.KW_ADDR)),
     (r"\bat\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.KW_AT)),
     (r"\bfree\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.KW_FREE)),
@@ -107,7 +106,7 @@ lexer = re.Scanner([
     (r"\bfrom\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.KW_FROM)),
     (r"\bsizeof\b", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.KW_SIZEOF)),
     
-    # --- Phase 4: Literals ---
+    # --- Literals ---
     (r"\d+\.\d+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.FLOAT_LITERAL)),
     (r"\d+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.INTEGER_LITERAL)),
     (r"\".*?\"", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.STRING_LITERAL)),
@@ -115,10 +114,10 @@ lexer = re.Scanner([
     (r"0b[01]+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.HEXADECIMAL_LITERAL)),
     (r"0x[0-9a-fA-F]+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.CHARACTER_LITERAL)),
     
-    # --- Phase 5: Identifiers ---
+    # --- Identifiers ---
     (r"[a-zA-Z_][a-zA-Z0-9_]*", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.IDENTIFIER)),
     
-    # --- Phase 6: Single-Char Ops & Punctuation ---
+    # --- Single-Char Ops & Punctuation ---
     (r"\+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_ADDITION)),
     (r"-", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_SUBTRACTION)),
     (r"\*", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.OP_MULTIPLICATION)),
@@ -140,7 +139,7 @@ lexer = re.Scanner([
     (r"\{", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.PUNC_LEFT_BRACE)),
     (r"\}", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.PUNC_RIGHT_BRACE)),
 
-    # --- Phase 7: Catch All (Safety Net) ---
+    # --- Catch All (Safety Net) ---
     (r"\S+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.ILLEGAL))
 ])
     

@@ -6,24 +6,31 @@ from dataclasses import dataclass, field
 class ASTNode: 
     line: int
     col: int
+    
 
 type Body = list[ASTNode]
 
 @dataclass
-class Program(ASTNode):
-    name: str
-    body: Body
-    line: int = 0
-    col: int = 0
+class ASTNodeWithBody(ASTNode):
+    body: Body = field(default_factory=list)
     
+    def appendBody(self, x: ASTNode):
+            self.body.append(x)
+
+
+@dataclass
+class Program(ASTNodeWithBody):
+    # Moved to the end and assigned default values because 'body' from parent has a default
+    line: int = 1
+    col: int = 0
+    name: str = None  # type: ignore
+
 
 # --- Types, Modifiers & Operators ---
 
-@dataclass
-class Type:
+@dataclass(kw_only=True)
+class Type(ASTNode):
     is_custom: bool = False
-    
-type TypeInput = list[Type]
     
 class Int(Type): pass
 class Float(Type): pass
@@ -38,8 +45,7 @@ class ListOf(Type):
     list_of: Type
 
 @dataclass
-class Modifier:
-    pass
+class Modifier(ASTNode): pass
 
 class Atomic(Modifier): pass
 class Alloc(Modifier): pass
@@ -48,12 +54,11 @@ class Unsigned(Modifier): pass
 class Const(Modifier): pass
 
 @dataclass
-class Operator:
-    pass
+class Operator(ASTNode): pass
 
 class EqualTo(Operator): pass
 class LessThanEq(Operator): pass
-class GreterThanEq(Operator): pass
+class GreaterThanEq(Operator): pass
 class Addition(Operator): pass
 class Multiplication(Operator): pass
 class Division(Operator): pass
@@ -62,8 +67,7 @@ class GreaterThan(Operator): pass
 class Substraction(Operator): pass
 
 @dataclass
-class BitwiseOperator:
-    pass
+class BitwiseOperator(ASTNode): pass
 
 class BitAnd(BitwiseOperator): pass
 class BitOr(BitwiseOperator): pass
@@ -74,15 +78,14 @@ class ShiftLeft(BitwiseOperator): pass
 class ShiftRight(BitwiseOperator): pass
 
 @dataclass
-class AssignmentOperator:
-    pass
+class AssignmentOperator(ASTNode): pass
 
 class IncrementOperator(AssignmentOperator): pass
 class DecrementOperator(AssignmentOperator): pass
 class AdditionalOperator(AssignmentOperator): pass
 class MultiplicationalOperator(AssignmentOperator): pass
 class DivisionalOperator(AssignmentOperator): pass
-class SubstractionalOperators(AssignmentOperator): pass
+class SubtractionalOperators(AssignmentOperator): pass
 
 
 # --- Literals (Terminal Nodes) ---
@@ -105,6 +108,14 @@ class StringLiteral(ASTNode):
 
 @dataclass
 class CharLiteral(ASTNode):
+    value: str
+
+@dataclass
+class BinaryLiteral(ASTNode):
+    value: str
+
+@dataclass
+class HexadecimalLiteral(ASTNode):
     value: str
 
 @dataclass
@@ -160,22 +171,22 @@ class ExpressionStatement(ASTNode):
     
 @dataclass
 class VariableDeclaration(ASTNode):
-    type: TypeInput
+    type: Type
     identifier: Identifier
     value: ASTNode | None = None
     modifiers: list[Modifier] = field(default_factory=list)
     
 @dataclass
 class Parameter(ASTNode):
-    type: TypeInput
+    type: Type
     identifier: Identifier
 
 @dataclass
-class FunctionDeclaration(ASTNode):
-    return_type: TypeInput
-    identifier: Identifier
-    parameters: list[Parameter]
-    body: Body
+class FunctionDeclaration(ASTNodeWithBody):
+    # Added defaults because 'body' from parent has a default
+    return_type: Type = None  # type: ignore
+    identifier: Identifier = None  # type: ignore
+    parameters: list[Parameter] = field(default_factory=list)
     
 @dataclass
 class StructDeclaration(ASTNode):
@@ -191,15 +202,15 @@ class EnumDeclaration(ASTNode):
 # --- Control Flow Statements ---
 
 @dataclass
-class IfStatement(ASTNode):
-    condition: ASTNode
-    body: Body
+class IfStatement(ASTNodeWithBody):
+    # Added defaults because 'body' from parent has a default
+    condition: ASTNode = None  # type: ignore
     alternative: ASTNode | None = None 
     
 @dataclass
-class WhileStatement(ASTNode):
-    condition: ASTNode
-    body: Body
+class WhileStatement(ASTNodeWithBody):
+    # Added default because 'body' from parent has a default
+    condition: ASTNode = None  # type: ignore
     
 @dataclass
 class ReturnStatement(ASTNode):

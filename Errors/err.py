@@ -18,6 +18,8 @@ class LexerError(IonError): pass
 
 class IndentationError(IonError): pass
 
+class SyntaxError(IonError): pass
+
 # --- INDEPENDENT METHOD ---
 
 def throw(e: IonError):
