@@ -552,16 +552,14 @@ Let’s build the future of Ion+ together.
 
 ---
 
-## Screenshot Placeholder
-
-You can place a screenshot of the language or editor output here when you are ready:
+## Screenshot Preview
 
 ![Ion+ language screenshot](./screenshot.png)
 ---
 
 ## License
 
-This project uses the repository license included in [LICENSE](LICENSE). Please review that file for usage and distribution terms. It is made under [Apache 2.0](http://www.apache.org/licenses/).
+This project uses the repository license included in [LICENSE](LICENSE). Please review that file for usage and distribution terms. It is made under **[MIT Licence](LICENSE)**.
 
 ---
 
