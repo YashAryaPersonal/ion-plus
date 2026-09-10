@@ -1,6 +1,10 @@
 # Ion+ ( [`ion-plus`](https://github.com/YashAryaPersonal/ion-plus) )
 
 <div align="center"><img src="LOGO.png" style="height: 300px;"/></div>
+<<<<<<< HEAD
+=======
+Ion+ is a low-level programming language project built in Python, with an architecture designed to eventually support LLVM-based code generation. The project currently focuses on the frontend pipeline: lexing source code, tokenizing language constructs, detecting indentation, and defining a rich AST model for future parsing and execution. Its main focus is to make a easier version of C++ with OOP.
+>>>>>>> 57210e548d10b17c70793241cc8ce89ab704a4f8
 
 Ion+ is a low-level, systems-inspired programming language built in Python as a compiler project focused on frontend architecture, parser design, AST generation, and language experimentation. The project is evolving from a lexer and token stream into a more capable language pipeline where variable understanding, declaration parsing, and node construction are becoming important building blocks for the next stages of the compiler.
 
@@ -9,6 +13,7 @@ This repository is a working prototype for a language that mixes ideas from low-
 The project is still in active development, but it has already reached a meaningful step forward: the parser now understands variable declarations and basic language structure, and the AST system is able to represent program nodes in a meaningful way for future semantic analysis and code generation.
 
 ### [https://github.com/YashAryaPersonal/ion-plus](https://github.com/YashAryaPersonal/ion-plus)
+### [ion-plus-preview.onrender.com](https://ion-plus-preview.onrender.com/)
 
 ### [ion-plus-preview.onrender.com](https://ion-plus-preview.onrender.com/)
 
