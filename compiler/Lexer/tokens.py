@@ -1,10 +1,10 @@
 from enum import Enum
 from typing import NamedTuple
 
-# --- TOKENS ENUM ---
+# token enum, kinda messy but works
 
 class Tokens(Enum):
-    # --- IGNORE ---
+    # ignore tokens
     
     COMMENT = "COMMENT"
     NEWLINE = "NEWLINE"
@@ -15,7 +15,7 @@ class Tokens(Enum):
     INDENT = "INDENT"
     DEDENT = "DEDENT"
     
-    # --- MULTI CHAR OPERATORS ---
+    # multi-char ops
     
     OP_EQUAL_TO = "OP_EQUAL_TO"
     OP_LESS_THAN_EQ = "OP_LESS_THAN_EQ"
@@ -27,7 +27,7 @@ class Tokens(Enum):
     OP_MULTIPLICATIONAL_ASSIGNMENT = "OP_MULTIPLICATIONAL_ASSIGNMENT"
     OP_DIVISIONAL_ASSIGNMENT = "OP_DIVISIONAL_ASSIGNMENT"
     
-    # --- VARIABLE MODIFIERS ---
+    # varaible modifers
     
     VM_ATOMIC = "VM_ATOMIC"
     VM_ALLOC = "VM_ALLOC"
@@ -35,7 +35,7 @@ class Tokens(Enum):
     VM_UNSIGNED = "VM_UNSIGNED"
     VM_CONST = "VM_CONST"
     
-    # --- DATATYPES ---
+    # datatypes
     
     DT_INT = "DT_INT"
     DT_FLOAT = "DT_FLOAT"
@@ -45,7 +45,7 @@ class Tokens(Enum):
     DT_PTR = "DT_PTR"
     DT_NONE = "DT_NONE"
     
-    # --- KEYWORDS ---
+    # keywrods
     
     KW_ADDR = "KW_ADDR"
     KW_AT = "KW_AT"
@@ -80,7 +80,7 @@ class Tokens(Enum):
     KW_FROM = "KW_FROM"
     KW_SIZEOF = "KW_SIZEOF"
     
-    # --- LITERALS ---
+    # litral values
     
     FLOAT_LITERAL = "FLOAT_LITERAL"
     INTEGER_LITERAL = "INTEGER_LITERAL"
@@ -90,7 +90,7 @@ class Tokens(Enum):
     HEXADECIMAL_LITERAL = "HEXADECIMAL_LITERAL"
     IDENTIFIER = "IDENTIFIER"
     
-    # --- OPERATORS ---
+    # operators
     
     OP_ADDITION = "OP_ADDITION"
     OP_SUBTRACTION = "OP_SUBTRACTION"
@@ -114,7 +114,7 @@ class Tokens(Enum):
     PUNC_RIGHT_BRACE = "PUNC_RIGHT_BRACE"
     
     
-# --- TOKEN STRUCT ---
+# token struct
 
 class TokenStruct(NamedTuple):
     token: Tokens

@@ -20,7 +20,7 @@ class IndentationError(IonError): pass
 
 class SyntaxError(IonError): pass
 
-# --- INDEPENDENT METHOD ---
+# helper func
 
 def throw(e: IonError):
     print(e)

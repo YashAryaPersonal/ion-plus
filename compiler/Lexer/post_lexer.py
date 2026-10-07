@@ -1,6 +1,6 @@
-from Lexer.tokens import Tokens, TokenStruct
-from Lexer.scanner import *
-from Errors.err import *
+from compiler.Lexer.tokens import Tokens, TokenStruct
+from compiler.Lexer.scanner import *
+from compiler.Errors.err import *
 
 
 def Indent_manager(tokens: list[TokenStruct], filename) -> list[TokenStruct]:

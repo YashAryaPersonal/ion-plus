@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-# --- Roots ---
+# root node stuff
 
 @dataclass
 class ASTNode: 
@@ -26,7 +26,7 @@ class Program(ASTNodeWithBody):
     name: str = None  # type: ignore
 
 
-# --- Types, Modifiers & Operators ---
+# types, modifers and ops
 
 @dataclass(kw_only=True)
 class Type(ASTNode):
@@ -88,7 +88,7 @@ class DivisionalOperator(AssignmentOperator): pass
 class SubtractionalOperators(AssignmentOperator): pass
 
 
-# --- Literals (Terminal Nodes) ---
+# literal terminal nodes
 
 @dataclass
 class Identifier(ASTNode):
@@ -123,7 +123,7 @@ class BooleanLiteral(ASTNode):
     value: bool
 
 
-# --- Expressions ---
+# expr stuff
 
 @dataclass
 class BinaryExpression(ASTNode):
@@ -138,13 +138,8 @@ class InfixExpression(ASTNode):
     right: ASTNode
 
 @dataclass
-class UnaryExpression(ASTNode):
-    operator: Operator
-    right: ASTNode
-
-@dataclass
 class AssignmentExpression(ASTNode):
-    assignee: ASTNode
+    assign_var: ASTNode
     operator: AssignmentOperator
     value: ASTNode
 
@@ -163,7 +158,7 @@ class SizeOfExpression(ASTNode):
     argument: ASTNode 
 
 
-# --- Statements & Declarations ---
+# statements and decs
 
 @dataclass
 class ExpressionStatement(ASTNode):
@@ -199,7 +194,7 @@ class EnumDeclaration(ASTNode):
     members: list[Identifier]
 
 
-# --- Control Flow Statements ---
+# control flow stuff
 
 @dataclass
 class IfStatement(ASTNodeWithBody):
@@ -229,7 +224,7 @@ class PassStatement(ASTNode):
     pass
 
 
-# --- Utility Statements ---
+# extra statements
 
 @dataclass
 class EchoStatement(ASTNode):
