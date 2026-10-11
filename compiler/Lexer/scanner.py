@@ -109,10 +109,11 @@ lexer = re.Scanner([
     # litral values
     (r"\d+\.\d+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.FLOAT_LITERAL)),
     (r"\d+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.INTEGER_LITERAL)),
-    (r"\".*?\"", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.STRING_LITERAL)),
-    (r"'.'", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.BINARY_LITERAL)),
+    (r"'[^']'", lambda s, t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.CHARACTER_LITERAL)),
+    (r'"[^"\\]*"' or r"'.*?'", lambda s, t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.STRING_LITERAL)),
+
     (r"0b[01]+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.HEXADECIMAL_LITERAL)),
-    (r"0x[0-9a-fA-F]+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.CHARACTER_LITERAL)),
+    (r"0x[0-9a-fA-F]+", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.BINARY_LITERAL)),
     
     # idents
     (r"[a-zA-Z_][a-zA-Z0-9_]*", lambda s,t: handler.handle_token(scanner=s, lexeme=t, token=Tokens.IDENTIFIER)),

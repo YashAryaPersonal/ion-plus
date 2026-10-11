@@ -6,10 +6,11 @@
 
 Ion+ is a small compiler-style project in Python. It is focused on the frontend side of a language: scanning source code, turning it into tokens, handling indentation, building a parser, and creating AST nodes for future work like type checking and code generation.
 
-Created by: **Yash Arya** — a 14-year-old teen developer.
+Created by: ***Yash Arya*** — a 14-year-old teen developer.
 
 Website: [ion-plus-preview.onrender.com](https://ion-plus-preview.onrender.com/)  
 GitHub: [ion-plus](https://github.com/YashAryaPersonal/ion-plus)
+Join Me (**Yash**) in Discord: [https://discord.com/users/1551194367627239545]
 
 ---
 

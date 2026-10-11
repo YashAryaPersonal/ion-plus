@@ -1,3 +1,4 @@
+from rich import print as rich_print
 from compiler.Lexer.post_lexer import *
 from compiler.Parser.main_parser import *
 
@@ -6,11 +7,13 @@ from compiler.Parser.main_parser import *
 
 if __name__ == "__main__":
     
-    with open("test/test1.ionx", "r") as f:
+    filename = "test/test1.ionx"
+    
+    with open(filename, "r") as f:
         source_code: str = f.read()
     
-    tokens, last_line, last_col = Scan(source_code, "test2.ionx")
-    parser = Parser(tokens, "test2.ionx")
+    tokens, last_line, last_col = Scan(source_code, filename)
+    parser = Parser(tokens, filename)
     
-    # print_tokens(tokens)
-    print(parser.parse())
+    print_tokens(tokens)
+    rich_print(parser.parse())

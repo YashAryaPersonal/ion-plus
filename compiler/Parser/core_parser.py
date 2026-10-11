@@ -18,17 +18,11 @@ class CoreParser():
         self.pointer += 1
         return return_val
     
-    def match(self, *tokentypes, use_consume = False):
-        if not use_consume:
-            if self.peek().token in tokentypes:
-                return True
-            else:
-                return False
+    def match(self, *tokentypes):
+        if self.peek().token in tokentypes:
+            return True
         else:
-            if self.consume().token in tokentypes:
-                return True
-            else:
-                return False
+            return False
     
     def error(self, msg):
         throw(SyntaxError(msg, self.peek().line, self.peek().col, self.filename))
@@ -39,9 +33,6 @@ class CoreParser():
         else:
             self.error("Unexpected token found")
 
-
-class SecondaryMethodsParser(CoreParser):
-    # Assembler Functions
     def parse_type(self, dt_tk: TokenStruct, checkout=False):
         if dt_tk.token == Tokens.DT_BOOL:
             return Bool(self.peek().line, self.peek().col)
