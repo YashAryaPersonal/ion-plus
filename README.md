@@ -4,13 +4,13 @@
   <img src="src/LOGO.png" alt="Ion+ logo" width="260" />
 </div>
 
-Ion+ is a small compiler-style project in Python. It is focused on the frontend side of a language: scanning source code, turning it into tokens, handling indentation, building a parser, and creating AST nodes for future work like type checking and code generation.
+Ion+ is a small compiler-style project written in Python. The focus is on the frontend of a language: scanning source files, producing tokens, tracking indentation, building a parser, and creating AST-style nodes for later stages such as type checking and code generation.
 
-Created by: ***Yash Arya*** — a 14-year-old teen developer.
+### Created by: ***Yash Arya***
 
 Website: [ion-plus-preview.onrender.com](https://ion-plus-preview.onrender.com/)  
-GitHub: [ion-plus](https://github.com/YashAryaPersonal/ion-plus)
-Join Me (**Yash**) in Discord: [https://discord.com/users/1551194367627239545]
+GitHub: [ion-plus](https://github.com/YashAryaPersonal/ion-plus)  
+Discord: [Yash](https://discord.com/users/1551194367627239545)
 
 ---
 
@@ -24,7 +24,7 @@ Right now, the project can:
 - parse declarations and basic expressions
 - build AST-like structures for future compiler stages
 
-This is still early, but the idea is there: a low-level, C-like language with cleaner syntax and a simpler frontend foundation.
+This is still early-stage work, but the direction is clear: a low-level, C-like language with cleaner syntax and a simpler frontend foundation.
 
 ---
 
@@ -32,16 +32,17 @@ This is still early, but the idea is there: a low-level, C-like language with cl
 
 ```text
 ion-plus/
+├── .gitignore
+├── .vscode/
 ├── LICENSE
 ├── README.md
-├── .gitignore
 ├── compiler/
 │   ├── __init__.py
 │   ├── Errors/
-│   │   ├── __int__.py
+│   │   ├── __init__.py
 │   │   └── err.py
 │   ├── Lexer/
-│   │   ├── __int__.py
+│   │   ├── __init__.py
 │   │   ├── post_lexer.py
 │   │   ├── scanner.py
 │   │   └── tokens.py
@@ -49,54 +50,61 @@ ion-plus/
 │       ├── __init__.py
 │       ├── core_parser.py
 │       ├── main_parser.py
-│       ├── nodes.py
-│       └── pratt_parser.py
+│       └── nodes.py
 ├── src/
 │   ├── LOGO.png
 │   └── screenshot.png
-├── test/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── test.ionx
-│   ├── test1.ionx
-│   └── test2.ionx
-└── .vscode/
+└── test/
+    ├── __init__.py
+    ├── main.py
+    ├── test.ionx
+    ├── test1.ionx
+    └── test2.ionx
 ```
 
 ### Quick guide
 
-- [compiler](compiler) — main compiler code, lexer, parser, and error handling
-- [compiler/Lexer](compiler/Lexer) — token generation and indentation logic
-- [compiler/Errors](compiler/Errors) — error reporting and exception helpers
-- [compiler/Parser](compiler/Parser) — parser logic and AST construction
+- [compiler](compiler) — core compiler code, lexer, parser, and error utilities
+- [compiler/Lexer](compiler/Lexer) — token generation and indentation handling
+- [compiler/Errors](compiler/Errors) — compiler error reporting
+- [compiler/Parser](compiler/Parser) — parsing logic and AST construction
 - [src](src) — project logo and screenshots
-- [test](test) — sample scripts and `.ionx` test files
+- [test](test) — sample source files and runner entry point
 
 ---
 
 ## How it works
 
-The basic flow is simple:
+The flow is straightforward:
 
 1. Read a `.ionx` file
 2. Scan it into tokens
 3. Handle indentation and blocks
 4. Parse tokens into AST nodes
-5. Prepare for semantic work later
+5. Prepare the structure for later semantic work
 
-This project is mostly frontend-focused right now, but the structure is already there for more compiler features later.
+This project is still frontend-focused, but the base architecture is already in place for future compiler features.
 
 ---
 
 ## Run it
 
-From the project root:
+From the project root, run the sample entry point with the project root on the Python path:
 
 ```bash
-python test/main.py
+PYTHONPATH=. python test/main.py
 ```
 
-### Quick Output:
+You can also use:
+
+```bash
+python -m test.main
+```
+
+> Note: running the file directly with `python test/main.py` may fail because the project root is not automatically added to `sys.path` in that execution mode.
+
+### Quick Output
+
 ```py
 Program(
   line=1, 
@@ -115,11 +123,11 @@ Program(
 )
 ```
 
-This runs the sample parser/lexer test flow and prints the parsed output.
+This is a representative AST-style example from the early parser work. The project is still evolving, so the exact output depends on the sample file being parsed and the compiler features currently implemented.
 
 ---
 
-## Example
+## Example syntax
 
 This is the kind of syntax the project is aiming for:
 
@@ -134,15 +142,15 @@ struct Buffer:
     return size
 ```
 
-It is meant to feel like a low-level C-like language, but with a cleaner and more readable syntax.
+It is meant to feel like a low-level C-like language, but with a cleaner, more readable syntax.
 
 ---
 
 ## Current status
 
-Ion+ is still in early development. The lexer and parser are working, and the AST is growing. There is no full backend or execution engine yet, and the project is still being built piece by piece.
+Ion+ is still in early development. The lexer and parser are working, and the AST is growing, but there is no full backend or execution engine yet. The project is being built piece by piece.
 
-The parser still needs more work, especially in [compiler/Parser/pratt_parser.py](compiler/Parser/pratt_parser.py).
+Parser work is still incomplete, and features such as expression parsing, statement handling, and full language semantics are still being expanded.
 
 ---
 
@@ -158,4 +166,4 @@ The parser still needs more work, especially in [compiler/Parser/pratt_parser.py
 
 This project is under the MIT license. See [LICENSE](LICENSE).
 
-I made this project to learn more about compilers, parsing, and language design, and to build something practical from scratch. It is still growing, but the base is there.
+The goal is to learn more about compilers, parsing, and language design while building something practical from scratch. It is still growing, but the base is there.

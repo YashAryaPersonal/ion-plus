@@ -3,7 +3,7 @@ from typing import NamedTuple
 
 # token enum, kinda messy but works
 
-class Tokens(Enum):
+class TokenType(Enum):
     # ignore tokens
     
     COMMENT = "COMMENT"
@@ -116,8 +116,8 @@ class Tokens(Enum):
     
 # token struct
 
-class TokenStruct(NamedTuple):
-    token: Tokens
+class Token(NamedTuple):
+    token: TokenType
     lexeme: int | str
     line: int
     col: int

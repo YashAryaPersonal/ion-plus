@@ -15,36 +15,36 @@ class Parser(CoreParser):
         }
         # suffix list
         supposed_suffix = [
-            Tokens.STRING_LITERAL, 
-            Tokens.BINARY_LITERAL, 
-            Tokens.CHARACTER_LITERAL, 
-            Tokens.FLOAT_LITERAL, 
-            Tokens.INTEGER_LITERAL,
-            Tokens.HEXADECIMAL_LITERAL,
-            Tokens.IDENTIFIER, # identifier
-            Tokens.OP_SUBTRACTION,
-            Tokens.PUNC_LEFT_BRACKET, # [
-            Tokens.PUNC_RIGHT_BRACKET, # {
-            Tokens.PUNC_LEFT_PARENTHESIS # (
+            TokenType.STRING_LITERAL, 
+            TokenType.BINARY_LITERAL, 
+            TokenType.CHARACTER_LITERAL, 
+            TokenType.FLOAT_LITERAL, 
+            TokenType.INTEGER_LITERAL,
+            TokenType.HEXADECIMAL_LITERAL,
+            TokenType.IDENTIFIER, # identifier
+            TokenType.OP_SUBTRACTION,
+            TokenType.PUNC_LEFT_BRACKET, # [
+            TokenType.PUNC_RIGHT_BRACKET, # {
+            TokenType.PUNC_LEFT_PARENTHESIS # (
         ]
         # infix list
         supposed_infix = [
-            Tokens.OP_SUBTRACTION,
-            Tokens.OP_ADDITION,
-            Tokens.OP_DIVISION,
-            Tokens.OP_MULTIPLICATION,
-            Tokens.OP_MODULO,
-            Tokens.OP_GREATER_THAN_EQ,
-            Tokens.OP_GREATER_THAN,
-            Tokens.OP_LESS_THAN_EQ,
-            Tokens.OP_LESS_THAN,
-            Tokens.OP_EQUAL_TO,
-            Tokens.PUNC_DOT
+            TokenType.OP_SUBTRACTION,
+            TokenType.OP_ADDITION,
+            TokenType.OP_DIVISION,
+            TokenType.OP_MULTIPLICATION,
+            TokenType.OP_MODULO,
+            TokenType.OP_GREATER_THAN_EQ,
+            TokenType.OP_GREATER_THAN,
+            TokenType.OP_LESS_THAN_EQ,
+            TokenType.OP_LESS_THAN,
+            TokenType.OP_EQUAL_TO,
+            TokenType.PUNC_DOT
         ]
         current_gravity: int = 0
         output_ast: ASTNode = ASTNode(self.peek().line, self.peek().col)
         
-        while not self.match(Tokens.NEWLINE):
+        while not self.match(TokenType.NEWLINE):
             if self.match(*supposed_suffix):
                 pass
             else:
@@ -54,10 +54,10 @@ class Parser(CoreParser):
         return output_ast
     
     def parse_declaration_func_or_val(self):
-        if self.peek().token == Tokens.SOF or self.peek().token == Tokens.NEWLINE:
-            if self.peek(2).token == Tokens.OP_ASSIGNMENT:
+        if self.peek().token == TokenType.SOF or self.peek().token == TokenType.NEWLINE:
+            if self.peek(2).token == TokenType.OP_ASSIGNMENT:
                 return self.parse_vardec()
-            elif self.peek(2).token == Tokens.PUNC_LEFT_PARENTHESIS:
+            elif self.peek(2).token == TokenType.PUNC_LEFT_PARENTHESIS:
                 pass
                     
         else: self.error("Unexpected syntax found")
@@ -67,11 +67,11 @@ class Parser(CoreParser):
         if modifier:
             
             while self.match(
-                Tokens.VM_ALLOC,
-                Tokens.VM_ATOMIC, 
-                Tokens.VM_CONST, 
-                Tokens.VM_UNSIGNED, 
-                Tokens.VM_VOLATILE
+                TokenType.VM_ALLOC,
+                TokenType.VM_ATOMIC, 
+                TokenType.VM_CONST, 
+                TokenType.VM_UNSIGNED, 
+                TokenType.VM_VOLATILE
             ):
                 modifiers.append(self.parse_modifier(self.consume()))
                 
@@ -80,7 +80,7 @@ class Parser(CoreParser):
             var_line, var_col = self.peek().line, self.peek().col
             var_type = self.parse_type(self.consume())
             var_name = Identifier(self.peek().line, self.peek().col, self.consume().lexeme)
-            self.expect(Tokens.OP_ASSIGNMENT)
+            self.expect(TokenType.OP_ASSIGNMENT)
             var_value = self.pratt_power_up()
             
             return VariableDeclaration(
@@ -99,30 +99,30 @@ class Parser(CoreParser):
         return_tree: Program = Program(name=self.filename)
         
         # loop
-        while self.peek().token != Tokens.EOF:
+        while self.peek().token != TokenType.EOF:
             # check
             if self.match(
-                Tokens.DT_BOOL, 
-                Tokens.DT_BYTE, 
-                Tokens.DT_CHAR, 
-                Tokens.DT_FLOAT, 
-                Tokens.DT_INT, 
-                Tokens.DT_NONE, 
-                Tokens.DT_PTR
+                TokenType.DT_BOOL, 
+                TokenType.DT_BYTE, 
+                TokenType.DT_CHAR, 
+                TokenType.DT_FLOAT, 
+                TokenType.DT_INT, 
+                TokenType.DT_NONE, 
+                TokenType.DT_PTR
             ):
                 return_tree.appendBody(self.parse_declaration_func_or_val())
             if self.match(
-                Tokens.VM_ALLOC, 
-                Tokens.VM_ATOMIC, 
-                Tokens.VM_CONST, 
-                Tokens.VM_UNSIGNED, 
-                Tokens.VM_VOLATILE
+                TokenType.VM_ALLOC, 
+                TokenType.VM_ATOMIC, 
+                TokenType.VM_CONST, 
+                TokenType.VM_UNSIGNED, 
+                TokenType.VM_VOLATILE
             ):
                 return_tree.appendBody(self.parse_vardec(modifier=True))
             
             # catch all (untouch)
-            elif self.match(Tokens.NEWLINE, Tokens.SOF): 
-                if self.consume().token == Tokens.NEWLINE:
+            elif self.match(TokenType.NEWLINE, TokenType.SOF): 
+                if self.consume().token == TokenType.NEWLINE:
                     print("Newline Found..")
                 else:
                     print("Parsing Started...")

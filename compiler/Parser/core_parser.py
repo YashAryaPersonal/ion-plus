@@ -4,7 +4,7 @@ from compiler.Errors.err import *
 
 
 class CoreParser():
-    def __init__(self, tokens: list[TokenStruct], filename: str):
+    def __init__(self, tokens: list[Token], filename: str):
         self.filename = filename
         self.tokens = tokens
         self.pointer: int = 0
@@ -27,54 +27,54 @@ class CoreParser():
     def error(self, msg):
         throw(SyntaxError(msg, self.peek().line, self.peek().col, self.filename))
         
-    def expect(self, tok: Tokens):
+    def expect(self, tok: TokenType):
         if self.peek().token == tok:
             return self.consume()
         else:
             self.error("Unexpected token found")
 
-    def parse_type(self, dt_tk: TokenStruct, checkout=False):
-        if dt_tk.token == Tokens.DT_BOOL:
+    def parse_type(self, dt_tk: Token, checkout=False):
+        if dt_tk.token == TokenType.DT_BOOL:
             return Bool(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.DT_BYTE:
+        elif dt_tk.token == TokenType.DT_BYTE:
             return Byte(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.DT_CHAR:
+        elif dt_tk.token == TokenType.DT_CHAR:
             return Char(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.DT_FLOAT:
+        elif dt_tk.token == TokenType.DT_FLOAT:
             return Float(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.DT_INT:
+        elif dt_tk.token == TokenType.DT_INT:
             return Int(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.DT_NONE:
+        elif dt_tk.token == TokenType.DT_NONE:
             return NoneType(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.DT_PTR:
+        elif dt_tk.token == TokenType.DT_PTR:
             return Ptr(self.peek().line, self.peek().col)
         else: return False if checkout else self.error("Unexpected Type Found")
         
-    def parse_literal(self, dt_tk: TokenStruct, value, checkout=False):
-        if dt_tk.token == Tokens.INTEGER_LITERAL:
+    def parse_literal(self, dt_tk: Token, value, checkout=False):
+        if dt_tk.token == TokenType.INTEGER_LITERAL:
             return IntegerLiteral(self.peek().line, self.peek().col, value)
-        elif dt_tk.token == Tokens.FLOAT_LITERAL:
+        elif dt_tk.token == TokenType.FLOAT_LITERAL:
             return FloatLiteral(self.peek().line, self.peek().col, value)
-        elif dt_tk.token == Tokens.BINARY_LITERAL:
+        elif dt_tk.token == TokenType.BINARY_LITERAL:
             return BinaryLiteral(self.peek().line, self.peek().col, value)
-        elif dt_tk.token == Tokens.STRING_LITERAL:
+        elif dt_tk.token == TokenType.STRING_LITERAL:
             return StringLiteral(self.peek().line, self.peek().col, value)
-        elif dt_tk.token == Tokens.CHARACTER_LITERAL:
+        elif dt_tk.token == TokenType.CHARACTER_LITERAL:
             return CharLiteral(self.peek().line, self.peek().col, value)
-        elif dt_tk.token == Tokens.HEXADECIMAL_LITERAL:
+        elif dt_tk.token == TokenType.HEXADECIMAL_LITERAL:
             return HexadecimalLiteral(self.peek().line, self.peek().col, value)
         else: return False if checkout else self.error("Unexpected Literal Found")
         
-    def parse_modifier(self, dt_tk: TokenStruct, checkout=False):
-        if dt_tk.token == Tokens.VM_ALLOC:
+    def parse_modifier(self, dt_tk: Token, checkout=False):
+        if dt_tk.token == TokenType.VM_ALLOC:
             return Alloc(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.VM_ATOMIC:
+        elif dt_tk.token == TokenType.VM_ATOMIC:
             return Atomic(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.VM_CONST:
+        elif dt_tk.token == TokenType.VM_CONST:
             return Const(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.VM_UNSIGNED:
+        elif dt_tk.token == TokenType.VM_UNSIGNED:
             return Unsigned(self.peek().line, self.peek().col)
-        elif dt_tk.token == Tokens.VM_VOLATILE:
+        elif dt_tk.token == TokenType.VM_VOLATILE:
             return Volatile(self.peek().line, self.peek().col)
         else:
             return False if checkout else self.error("Unexpected Modifier Found")
