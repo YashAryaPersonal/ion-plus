@@ -95,7 +95,7 @@ From the project root, run the sample entry point with the project root on the P
 PYTHONPATH=. python test/main.py
 ```
 
-You can also use:
+***Or***, You can also use:
 
 ```bash
 python -m test.main

@@ -1,1 +1,2 @@
-const volatile int x = *
+const volatile int x = 5
+const volatile int x = "str"

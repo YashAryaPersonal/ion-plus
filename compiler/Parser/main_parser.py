@@ -6,50 +6,68 @@ from compiler.Parser.core_parser import *
 
 class Parser(CoreParser):
     def pratt_power_up(self):
-        # gravities
-        pratt_gravity = {
-            "prenthesis": 100,
-            "exponents": 80,
-            "multiplication_or_division": 40,
-            "addition_or_substraction": 20
-        }
-        # suffix list
-        supposed_suffix = [
-            TokenType.STRING_LITERAL, 
-            TokenType.BINARY_LITERAL, 
-            TokenType.CHARACTER_LITERAL, 
-            TokenType.FLOAT_LITERAL, 
+        # prefixes
+        expression_starters = [
+            TokenType.STRING_LITERAL,
+            TokenType.BINARY_LITERAL,
+            TokenType.CHARACTER_LITERAL,
+            TokenType.FLOAT_LITERAL,
             TokenType.INTEGER_LITERAL,
             TokenType.HEXADECIMAL_LITERAL,
-            TokenType.IDENTIFIER, # identifier
+            TokenType.LITERAL_BOOLEAN_TRUE,
+            TokenType.LITERAL_BOOLEAN_FALSE,
+            TokenType.KW_NULL,
+            TokenType.IDENTIFIER,
             TokenType.OP_SUBTRACTION,
-            TokenType.PUNC_LEFT_BRACKET, # [
-            TokenType.PUNC_RIGHT_BRACKET, # {
-            TokenType.PUNC_LEFT_PARENTHESIS # (
+            TokenType.PUNC_LEFT_BRACKET,
+            TokenType.PUNC_LEFT_PARENTHESIS,
+            TokenType.KW_NOT,
+            TokenType.KW_BITWISE_NOT,
+            TokenType.KW_ADDR,
+            TokenType.KW_AT,
+            TokenType.KW_SIZEOF
         ]
-        # infix list
-        supposed_infix = [
-            TokenType.OP_SUBTRACTION,
+        # infixes
+        expression_connectors = [
             TokenType.OP_ADDITION,
-            TokenType.OP_DIVISION,
+            TokenType.OP_SUBTRACTION,
             TokenType.OP_MULTIPLICATION,
+            TokenType.OP_DIVISION,
             TokenType.OP_MODULO,
-            TokenType.OP_GREATER_THAN_EQ,
-            TokenType.OP_GREATER_THAN,
-            TokenType.OP_LESS_THAN_EQ,
-            TokenType.OP_LESS_THAN,
             TokenType.OP_EQUAL_TO,
-            TokenType.PUNC_DOT
+            TokenType.OP_LESS_THAN,
+            TokenType.OP_LESS_THAN_EQ,
+            TokenType.OP_GREATER_THAN,
+            TokenType.OP_GREATER_THAN_EQ,
+            TokenType.KW_AND,
+            TokenType.KW_OR,
+            TokenType.KW_BITWISE_AND,
+            TokenType.KW_BITWISE_OR,
+            TokenType.KW_BITWISE_XOR,
+            TokenType.KW_BITWISE_NAND,
+            TokenType.KW_BITWISE_SHIFT_LEFT,
+            TokenType.KW_BITWISE_SHIFT_RIGHT,
+            TokenType.PUNC_DOT,
+            TokenType.PUNC_LEFT_BRACKET,
+            TokenType.PUNC_LEFT_PARENTHESIS
         ]
         current_gravity: int = 0
-        output_ast: ASTNode = ASTNode(self.peek().line, self.peek().col)
+        output_ast: ASTNode
         
         while not self.match(TokenType.NEWLINE):
-            if self.match(*supposed_suffix):
-                pass
+            if self.match(*expression_starters):
+                match self.peek().token:
+                    case TokenType.OP_SUBTRACTION:
+                        if self.parse_literal(dt_tk=self.peek(1), checkout=True, value=0) and isinstance(self.parse_literal(dt_tk=self.peek(1), value=0), IntegerLiteral):
+                            self.consume()
+                            output_ast = self.parse_literal(self.peek(), -int(self.consume().lexeme))
+                            
+                    case _:
+                        self.error("stuck here")
+                        output_ast = Illegal(self.peek().line, self.consume().col)
             else:
-                self.consume()
-                self.error("Unexpected Token Found, An Expression must contain suffix `-`, `(`, `{`, `[`, identifier or literal")
+                self.error("Unexpected Token Found, An Expression must start with a prefix")
+                output_ast = Illegal(self.peek().line, self.consume().col)
         
         return output_ast
     
@@ -125,10 +143,13 @@ class Parser(CoreParser):
                 if self.consume().token == TokenType.NEWLINE:
                     print("Newline Found..")
                 else:
-                    print("Parsing Started...")
+                    print("Parsing Started...(SOF Found)")
             else:
-                self.error("Unexpected token found, yo")
-                
+                self.consume()
+                self.error("Unexpected token found")
         
+        if self.errFound:
+            sys.exit(1)
+            
         # return
         return return_tree

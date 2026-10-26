@@ -13,7 +13,6 @@ type Body = list[ASTNode]
 @dataclass
 class ASTNodeWithBody(ASTNode):
     body: Body = field(default_factory=list)
-    
     def appendBody(self, x: ASTNode):
             self.body.append(x)
 
@@ -80,12 +79,12 @@ class ShiftRight(BitwiseOperator): pass
 @dataclass
 class AssignmentOperator(ASTNode): pass
 
-class IncrementOperator(AssignmentOperator): pass
-class DecrementOperator(AssignmentOperator): pass
-class AdditionalOperator(AssignmentOperator): pass
-class MultiplicationalOperator(AssignmentOperator): pass
-class DivisionalOperator(AssignmentOperator): pass
-class SubtractionalOperators(AssignmentOperator): pass
+class IncrementalAssignment(AssignmentOperator): pass
+class DecrementalAssignment(AssignmentOperator): pass
+class AdditionalAssignment(AssignmentOperator): pass
+class MultiplicationalAssignment(AssignmentOperator): pass
+class DivisionalAssignment(AssignmentOperator): pass
+class SubtractionalAssignment(AssignmentOperator): pass
 
 
 # literal terminal nodes
@@ -234,3 +233,7 @@ class EchoStatement(ASTNode):
 class ImportStatement(ASTNode):
     module: Identifier
     items: list[Identifier] | None = None
+    
+# eRror handle
+
+class Illegal(ASTNode): pass
